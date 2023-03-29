@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var inchesString = ""
     @State private var poundsString = ""
     
-    @State private var result = ""
+    @State private var bmiResult = ""
     @State private var diagnosis = ""
     
     init() {
@@ -42,25 +42,33 @@ struct ContentView: View {
         case imperial = "Imperial"
     }
     
+    func unableToCalculate(){
+        self.bmiResult = "Complete the fields!"
+        self.diagnosis = ""
+    }
+    
+    var metricFieldsEmpty: Bool {
+        return centimetersString.isEmpty || kilogramsString.isEmpty
+    }
+    
+    var imperialFieldsEmpty: Bool {
+        return feetString.isEmpty || inchesString.isEmpty || poundsString.isEmpty
+    }
+    
     func calculateBmi() {
         
         if selectedUnit == .metric {
-            if (centimetersString.isEmpty || kilogramsString.isEmpty) {
-                self.result = "Complete the fields!"
-                self.diagnosis = ""
+            if (metricFieldsEmpty) {
+                unableToCalculate()
             }else {
                 let height = Double(centimetersString) ?? 0.0
                 let weight = Double(kilogramsString) ?? 0.0
-
-                let result = (weight/(height*height)) * 10000
-                let roundedResult = round(result * 100) / 100
                 
-                makeDiagnosis(roundedResult)
+                makeDiagnosis(height: height, weight: weight)
             }
         }else {
-            if (feetString.isEmpty || inchesString.isEmpty || poundsString.isEmpty) {
-                self.result = "Complete the fields!"
-                self.diagnosis = ""
+            if (imperialFieldsEmpty) {
+                unableToCalculate()
             }else {
         
                 let feetToCm = (Double(feetString) ?? 0.0) * 30.48
@@ -70,20 +78,18 @@ struct ContentView: View {
                 let height = feetToCm + inchesToCm
                 let weight = poundsToKg
                 
-                let result = (weight/(height*height)) * 10000
-                let roundedResult = round(result * 100) / 100
-                
-                makeDiagnosis(roundedResult)
+                makeDiagnosis(height: height, weight: weight)
             }
         }
-        
-    
     }
     
-    func makeDiagnosis(_ roundedResult: Double) {
-        self.result = "BMI = \(roundedResult)"
+    func makeDiagnosis(height: Double, weight: Double) {
+        let bmiResult = (weight/(height*height)) * 10000
+        let roundedbmiResult = round(bmiResult * 100) / 100
         
-        switch roundedResult{
+        self.bmiResult = "BMI = \(roundedbmiResult)"
+        
+        switch roundedbmiResult{
             case 0..<18.5:
                 diagnosis = "Underweight"
             case 18.5..<25:
@@ -98,7 +104,7 @@ struct ContentView: View {
     }
     
     func clearStrings() {
-        result = ""
+        bmiResult = ""
         diagnosis = ""
         
         kilogramsString = ""
@@ -158,7 +164,7 @@ struct ContentView: View {
                                 
                             TextField("Pounds", text: $poundsString)
                                 .numbersOnly($poundsString)
-                                .focused($focusedField, equals: .height)
+                                .focused($focusedField, equals: .weight)
                                 .textFieldStyle(.roundedBorder)
                                 .padding()
                         }
@@ -166,9 +172,9 @@ struct ContentView: View {
                     }
                 
             
-                if !result.isEmpty {
+                if !bmiResult.isEmpty {
                     VStack{
-                        Text(result)
+                        Text(bmiResult)
                         Text(diagnosis)
                     }
                     .padding()
@@ -195,29 +201,6 @@ struct ContentView: View {
                 ToolbarItem(placement: .keyboard) {
                     Button {
                         focusedField = nil
-                        
-                        if selectedUnit == .metric {
-                            if(centimetersString.last == "." || centimetersString.last == ","){
-                                centimetersString += "0"
-                            }
-
-                            if(kilogramsString.last == "." || kilogramsString.last == ","){
-                                kilogramsString += "0"
-                            }
-                        }else {
-                            if(feetString.last == "." || feetString.last == ","){
-                                feetString += "0"
-                            }
-
-                            if(inchesString.last == "." || inchesString.last == ","){
-                                inchesString += "0"
-                            }
-
-                            if(poundsString.last == "." || poundsString.last == ","){
-                                poundsString += "0"
-                            }
-                        }
-                        
                         
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
