@@ -14,6 +14,7 @@
 		7BA0DD1529D3331D00BF13E1 /* BmiCalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD1429D3331D00BF13E1 /* BmiCalcTests.swift */; };
 		7BA0DD1F29D3331D00BF13E1 /* BmiCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD1E29D3331D00BF13E1 /* BmiCalcUITests.swift */; };
 		7BA0DD2129D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD2029D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift */; };
+		7BD2486A29D3723D009325C0 /* NumbersOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		7BA0DD1A29D3331D00BF13E1 /* BmiCalcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BmiCalcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0DD1E29D3331D00BF13E1 /* BmiCalcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BmiCalcUITests.swift; sourceTree = "<group>"; };
 		7BA0DD2029D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BmiCalcUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnlyViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				7BA0DD0329D3331C00BF13E1 /* BmiCalcApp.swift */,
 				7BA0DD0529D3331C00BF13E1 /* ContentView.swift */,
+				7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */,
 				7BA0DD0729D3331D00BF13E1 /* Assets.xcassets */,
 				7BA0DD0929D3331D00BF13E1 /* Preview Content */,
 			);
@@ -259,6 +262,7 @@
 			files = (
 				7BA0DD0629D3331C00BF13E1 /* ContentView.swift in Sources */,
 				7BA0DD0429D3331C00BF13E1 /* BmiCalcApp.swift in Sources */,
+				7BD2486A29D3723D009325C0 /* NumbersOnlyViewModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
