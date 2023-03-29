@@ -9,20 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @FocusState private var focusedField: FocusedField?
-    @State private var selectedUnit: Units = .metric
+    @EnvironmentObject private var calculatorModel: CalculatorModel
     
-    /* Metric Units */
-    @State private var kilogramsString = ""
-    @State private var centimetersString = ""
-    
-    /* Imperial Units */
-    @State private var feetString = ""
-    @State private var inchesString = ""
-    @State private var poundsString = ""
-    
-    @State private var bmiResult = ""
-    @State private var diagnosis = ""
+    @FocusState var focusedField: CalculatorModel.FocusedField?
     
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemBlue
@@ -33,157 +22,88 @@ struct ContentView: View {
         UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor : UIColor.systemBlue]
     }
     
-    enum FocusedField {
-        case weight, height
-    }
-    
-    enum Units: String, CaseIterable {
-        case metric = "Metric"
-        case imperial = "Imperial"
-    }
-    
-    func unableToCalculate(){
-        self.bmiResult = "Complete the fields!"
-        self.diagnosis = ""
-    }
-    
-    var metricFieldsEmpty: Bool {
-        return centimetersString.isEmpty || kilogramsString.isEmpty
-    }
-    
-    var imperialFieldsEmpty: Bool {
-        return feetString.isEmpty || inchesString.isEmpty || poundsString.isEmpty
-    }
-    
-    func calculateBmi() {
-        
-        if selectedUnit == .metric {
-            if (metricFieldsEmpty) {
-                unableToCalculate()
-            }else {
-                let height = Double(centimetersString) ?? 0.0
-                let weight = Double(kilogramsString) ?? 0.0
-                
-                makeDiagnosis(height: height, weight: weight)
-            }
-        }else {
-            if (imperialFieldsEmpty) {
-                unableToCalculate()
-            }else {
-        
-                let feetToCm = (Double(feetString) ?? 0.0) * 30.48
-                let inchesToCm = (Double(inchesString) ?? 0.0) * 2.54
-                let poundsToKg = (Double(poundsString) ?? 0.0) * 0.45359237
-                
-                let height = feetToCm + inchesToCm
-                let weight = poundsToKg
-                
-                makeDiagnosis(height: height, weight: weight)
-            }
-        }
-    }
-    
-    func makeDiagnosis(height: Double, weight: Double) {
-        let bmiResult = (weight/(height*height)) * 10000
-        let roundedbmiResult = round(bmiResult * 100) / 100
-        
-        self.bmiResult = "BMI = \(roundedbmiResult)"
-        
-        switch roundedbmiResult{
-            case 0..<18.5:
-                diagnosis = "Underweight"
-            case 18.5..<25:
-                diagnosis = "Normal weight"
-            case 25..<30:
-                diagnosis = "Overweight"
-            case 30...:
-                diagnosis = "Obesity"
-            default:
-                diagnosis = "???"
-        }
-    }
-    
-    func clearStrings() {
-        bmiResult = ""
-        diagnosis = ""
-        
-        kilogramsString = ""
-        centimetersString = ""
-        
-        feetString = ""
-        inchesString = ""
-        poundsString = ""
-    }
-    
     var body: some View {
         NavigationView{
             VStack {
                 
-                Picker("Choose units", selection: $selectedUnit) {
-                    ForEach(Units.allCases, id: \.self) {
+                Picker("Choose units", selection: $calculatorModel.selectedUnit) {
+                    ForEach(CalculatorModel.Units.allCases, id: \.self) {
                         Text($0.rawValue)
                     }
                 }
-                .onChange(of: selectedUnit, perform: { _ in
-                    clearStrings()
+                .onChange(of: calculatorModel.selectedUnit, perform: { _ in
+                    calculatorModel.clearStrings()
                 })
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
                 
-                    if(selectedUnit == .metric) {
+                    if(calculatorModel.selectedUnit == .metric) {
                         VStack {
-                            TextField("Centimeters", text: $centimetersString)
-                                .numbersOnly($centimetersString)
-                                .focused($focusedField, equals: .height)
+                            TextField("Centimeters", text: $calculatorModel.centimetersString)
                                 .textFieldStyle(.roundedBorder)
                                 .padding([.leading, .trailing])
+                                .numbersOnly($calculatorModel.centimetersString)
+                                .focused($focusedField, equals: .cm)
+                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
+                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
                             
-                            TextField("Kilograms", text: $kilogramsString)
-                                .numbersOnly($kilogramsString)
-                                .focused($focusedField, equals: .weight)
+                            TextField("Kilograms", text: $calculatorModel.kilogramsString)
                                 .textFieldStyle(.roundedBorder)
                                 .padding()
+                                .numbersOnly($calculatorModel.kilogramsString)
+                                .focused($focusedField, equals: .kg)
+                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
+                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
                         }
                         
                     }else {
                         VStack {
                             HStack {
-                                TextField("Feet", text: $feetString)
-                                    .numbersOnly($feetString)
-                                    .focused($focusedField, equals: .height)
+                                TextField("Feet", text: $calculatorModel.feetString)
                                     .textFieldStyle(.roundedBorder)
                                     .padding(.leading)
+                                    .numbersOnly($calculatorModel.feetString)
+                                    .focused($focusedField, equals: .ft)
+                                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
+                                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                                    
                                 
-                                TextField("Inches", text: $inchesString)
-                                    .numbersOnly($inchesString)
-                                    .focused($focusedField, equals: .height)
+                                TextField("Inches", text: $calculatorModel.inchesString)
                                     .textFieldStyle(.roundedBorder)
                                     .padding(.trailing)
+                                    .numbersOnly($calculatorModel.inchesString)
+                                    .focused($focusedField, equals: .inch)
+                                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
+                                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                                    
                             }
                                 
-                            TextField("Pounds", text: $poundsString)
-                                .numbersOnly($poundsString)
-                                .focused($focusedField, equals: .weight)
+                            TextField("Pounds", text: $calculatorModel.poundsString)
                                 .textFieldStyle(.roundedBorder)
                                 .padding()
+                                .numbersOnly($calculatorModel.poundsString)
+                                .focused($focusedField, equals: .lb)
+                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
+                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                                
                         }
                         
                     }
                 
             
-                if !bmiResult.isEmpty {
+                if !calculatorModel.bmiResult.isEmpty {
                     VStack{
-                        Text(bmiResult)
-                        Text(diagnosis)
+                        Text(calculatorModel.bmiResult)
+                        Text(calculatorModel.diagnosis)
                     }
                     .padding()
                 }
                 
                 Button("Calculate") {
-                    focusedField = nil
+                    calculatorModel.focusedField = nil
                     
-                    calculateBmi()
+                    calculatorModel.calculateBmi()
                 }
                 .padding()
                 .background(.blue)
@@ -200,7 +120,7 @@ struct ContentView: View {
                 
                 ToolbarItem(placement: .keyboard) {
                     Button {
-                        focusedField = nil
+                        calculatorModel.focusedField = nil
                         
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
@@ -217,5 +137,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(CalculatorModel())
     }
 }

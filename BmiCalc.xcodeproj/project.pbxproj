@@ -14,6 +14,7 @@
 		7BA0DD1529D3331D00BF13E1 /* BmiCalcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD1429D3331D00BF13E1 /* BmiCalcTests.swift */; };
 		7BA0DD1F29D3331D00BF13E1 /* BmiCalcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD1E29D3331D00BF13E1 /* BmiCalcUITests.swift */; };
 		7BA0DD2129D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0DD2029D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift */; };
+		7BAA0DB129D4A839008A541A /* CalculatorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAA0DB029D4A839008A541A /* CalculatorModel.swift */; };
 		7BD2486A29D3723D009325C0 /* NumbersOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		7BA0DD1A29D3331D00BF13E1 /* BmiCalcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BmiCalcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0DD1E29D3331D00BF13E1 /* BmiCalcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BmiCalcUITests.swift; sourceTree = "<group>"; };
 		7BA0DD2029D3331D00BF13E1 /* BmiCalcUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BmiCalcUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7BAA0DB029D4A839008A541A /* CalculatorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorModel.swift; sourceTree = "<group>"; };
 		7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersOnlyViewModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,6 +103,7 @@
 				7BD2486929D3723D009325C0 /* NumbersOnlyViewModifier.swift */,
 				7BA0DD0729D3331D00BF13E1 /* Assets.xcassets */,
 				7BA0DD0929D3331D00BF13E1 /* Preview Content */,
+				7BAA0DB029D4A839008A541A /* CalculatorModel.swift */,
 			);
 			path = BmiCalc;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				7BA0DD0629D3331C00BF13E1 /* ContentView.swift in Sources */,
 				7BA0DD0429D3331C00BF13E1 /* BmiCalcApp.swift in Sources */,
 				7BD2486A29D3723D009325C0 /* NumbersOnlyViewModifier.swift in Sources */,
+				7BAA0DB129D4A839008A541A /* CalculatorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
