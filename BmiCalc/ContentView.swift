@@ -38,58 +38,11 @@ struct ContentView: View {
                 .padding()
 
                 
-                    if(calculatorModel.selectedUnit == .metric) {
-                        VStack {
-                            TextField("Centimeters", text: $calculatorModel.centimetersString)
-                                .textFieldStyle(.roundedBorder)
-                                .padding([.leading, .trailing])
-                                .numbersOnly($calculatorModel.centimetersString)
-                                .focused($focusedField, equals: .cm)
-                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
-                            
-                            TextField("Kilograms", text: $calculatorModel.kilogramsString)
-                                .textFieldStyle(.roundedBorder)
-                                .padding()
-                                .numbersOnly($calculatorModel.kilogramsString)
-                                .focused($focusedField, equals: .kg)
-                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
-                        }
-                        
-                    }else {
-                        VStack {
-                            HStack {
-                                TextField("Feet", text: $calculatorModel.feetString)
-                                    .textFieldStyle(.roundedBorder)
-                                    .padding(.leading)
-                                    .numbersOnly($calculatorModel.feetString)
-                                    .focused($focusedField, equals: .ft)
-                                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
-                                    
-                                
-                                TextField("Inches", text: $calculatorModel.inchesString)
-                                    .textFieldStyle(.roundedBorder)
-                                    .padding(.trailing)
-                                    .numbersOnly($calculatorModel.inchesString)
-                                    .focused($focusedField, equals: .inch)
-                                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
-                                    
-                            }
-                                
-                            TextField("Pounds", text: $calculatorModel.poundsString)
-                                .textFieldStyle(.roundedBorder)
-                                .padding()
-                                .numbersOnly($calculatorModel.poundsString)
-                                .focused($focusedField, equals: .lb)
-                                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
-                                
-                        }
-                        
-                    }
+                if(calculatorModel.selectedUnit == .metric) {
+                    MetricFieldsView()
+                }else {
+                    ImperialFieldsView()
+                }
                 
             
                 if !calculatorModel.bmiResult.isEmpty {
