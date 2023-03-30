@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class CalculatorModel: ObservableObject {
+class CalculatorViewModel: ObservableObject {
     
     @Published var focusedField: FocusedField?
     

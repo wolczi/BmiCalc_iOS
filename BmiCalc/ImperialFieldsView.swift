@@ -8,38 +8,38 @@
 import SwiftUI
 
 struct ImperialFieldsView: View {
-    @EnvironmentObject private var calculatorModel: CalculatorModel
-    @FocusState var focusedField: CalculatorModel.FocusedField?
+    @EnvironmentObject private var calculatorViewModel: CalculatorViewModel
+    @FocusState var focusedField: CalculatorViewModel.FocusedField?
     
     var body: some View {
         VStack {
             HStack {
-                TextField("Feet", text: $calculatorModel.feetString)
+                TextField("Feet", text: $calculatorViewModel.feetString)
                     .textFieldStyle(.roundedBorder)
                     .padding(.leading)
-                    .numbersOnly($calculatorModel.feetString)
+                    .numbersOnly($calculatorViewModel.feetString)
                     .focused($focusedField, equals: .ft)
-                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                    .onChange(of: focusedField)  { calculatorViewModel.focusedField = $0 }
+                    .onChange(of: calculatorViewModel.focusedField) { focusedField = $0 }
                     
                 
-                TextField("Inches", text: $calculatorModel.inchesString)
+                TextField("Inches", text: $calculatorViewModel.inchesString)
                     .textFieldStyle(.roundedBorder)
                     .padding(.trailing)
-                    .numbersOnly($calculatorModel.inchesString)
+                    .numbersOnly($calculatorViewModel.inchesString)
                     .focused($focusedField, equals: .inch)
-                    .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                    .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                    .onChange(of: focusedField)  { calculatorViewModel.focusedField = $0 }
+                    .onChange(of: calculatorViewModel.focusedField) { focusedField = $0 }
                     
             }
                 
-            TextField("Pounds", text: $calculatorModel.poundsString)
+            TextField("Pounds", text: $calculatorViewModel.poundsString)
                 .textFieldStyle(.roundedBorder)
                 .padding()
-                .numbersOnly($calculatorModel.poundsString)
+                .numbersOnly($calculatorViewModel.poundsString)
                 .focused($focusedField, equals: .lb)
-                .onChange(of: focusedField)  { calculatorModel.focusedField = $0 }
-                .onChange(of: calculatorModel.focusedField) { focusedField = $0 }
+                .onChange(of: focusedField)  { calculatorViewModel.focusedField = $0 }
+                .onChange(of: calculatorViewModel.focusedField) { focusedField = $0 }
                 
         }
     }
@@ -48,6 +48,6 @@ struct ImperialFieldsView: View {
 struct ImperialFieldsView_Previews: PreviewProvider {
     static var previews: some View {
         ImperialFieldsView()
-            .environmentObject(CalculatorModel())
+            .environmentObject(CalculatorViewModel())
     }
 }

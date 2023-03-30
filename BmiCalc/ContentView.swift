@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject private var calculatorModel: CalculatorModel
+    @EnvironmentObject private var calculatorViewModel: CalculatorViewModel
     
-    @FocusState var focusedField: CalculatorModel.FocusedField?
+    @FocusState var focusedField: CalculatorViewModel.FocusedField?
     
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = .systemBlue
@@ -26,37 +26,37 @@ struct ContentView: View {
         NavigationView{
             VStack {
                 
-                Picker("Choose units", selection: $calculatorModel.selectedUnit) {
-                    ForEach(CalculatorModel.Units.allCases, id: \.self) {
+                Picker("Choose units", selection: $calculatorViewModel.selectedUnit) {
+                    ForEach(CalculatorViewModel.Units.allCases, id: \.self) {
                         Text($0.rawValue)
                     }
                 }
-                .onChange(of: calculatorModel.selectedUnit, perform: { _ in
-                    calculatorModel.clearStrings()
+                .onChange(of: calculatorViewModel.selectedUnit, perform: { _ in
+                    calculatorViewModel.clearStrings()
                 })
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
                 
-                if(calculatorModel.selectedUnit == .metric) {
+                if(calculatorViewModel.selectedUnit == .metric) {
                     MetricFieldsView()
                 }else {
                     ImperialFieldsView()
                 }
                 
             
-                if !calculatorModel.bmiResult.isEmpty {
+                if !calculatorViewModel.bmiResult.isEmpty {
                     VStack{
-                        Text(calculatorModel.bmiResult)
-                        Text(calculatorModel.diagnosis)
+                        Text(calculatorViewModel.bmiResult)
+                        Text(calculatorViewModel.diagnosis)
                     }
                     .padding()
                 }
                 
                 Button("Calculate") {
-                    calculatorModel.focusedField = nil
+                    calculatorViewModel.focusedField = nil
                     
-                    calculatorModel.calculateBmi()
+                    calculatorViewModel.calculateBmi()
                 }
                 .padding()
                 .background(.blue)
@@ -73,7 +73,7 @@ struct ContentView: View {
                 
                 ToolbarItem(placement: .keyboard) {
                     Button {
-                        calculatorModel.focusedField = nil
+                        calculatorViewModel.focusedField = nil
                         
                     } label: {
                         Image(systemName: "keyboard.chevron.compact.down")
@@ -90,6 +90,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(CalculatorModel())
+            .environmentObject(CalculatorViewModel())
     }
 }
