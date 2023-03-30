@@ -10,27 +10,47 @@ import XCTest
 
 final class BmiCalcTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testCalculateBmiInMetricUnits() {
+        let calculatorViewModel = CalculatorViewModel()
+        
+        calculatorViewModel.selectedUnit = .metric
+        calculatorViewModel.centimetersString = "186"
+        calculatorViewModel.kilogramsString = "50"
+        calculatorViewModel.calculateBmi()
+        
+        XCTAssertEqual(calculatorViewModel.bmiResult, "BMI = 14.45")
+        XCTAssertEqual(calculatorViewModel.diagnosis, "Underweight")
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testCalculateBmiInImperialUnits() {
+        let calculatorViewModel = CalculatorViewModel()
+        
+        calculatorViewModel.selectedUnit = .imperial
+        calculatorViewModel.feetString = "5"
+        calculatorViewModel.inchesString = "10"
+        calculatorViewModel.poundsString = "160"
+        calculatorViewModel.calculateBmi()
+        
+        XCTAssertEqual(calculatorViewModel.bmiResult, "BMI = 22.96")
+        XCTAssertEqual(calculatorViewModel.diagnosis, "Normal weight")
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func testCalculateBmiWhenFieldsAreEmpty() {
+        let calculatorViewModel = CalculatorViewModel()
+        
+        calculatorViewModel.calculateBmi()
+        
+        XCTAssertEqual(calculatorViewModel.bmiResult, "Complete the fields!")
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testCalculateBmiWhenNotAllFieldsAreFullFilled() {
+        let calculatorViewModel = CalculatorViewModel()
+        
+        calculatorViewModel.selectedUnit = .metric
+        calculatorViewModel.centimetersString = "186"
+        calculatorViewModel.calculateBmi()
+        
+        XCTAssertEqual(calculatorViewModel.bmiResult, "Complete the fields!")
     }
 
 }
